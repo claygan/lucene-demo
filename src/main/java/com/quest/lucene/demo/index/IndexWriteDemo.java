@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.quest.lucene.demo.analizer.ik.IKAnalyzer4Lucene7;
+import com.quest.lucene.demo.common.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -33,7 +34,7 @@ public class IndexWriteDemo {
 				// 索引存放目录
 				// 存放到文件系统中
 				Directory directory = FSDirectory
-						.open((new File("f:/test/indextest")).toPath());
+						.open((new File(Constants.DIRECTORY_FILE_PATH)).toPath());
 
 				// 存放到内存中
 				// Directory directory = new RAMDirectory();

@@ -1,6 +1,7 @@
 package com.quest.lucene.demo.search;
 
 import com.quest.lucene.demo.analizer.ik.IKAnalyzer4Lucene7;
+import com.quest.lucene.demo.common.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -28,7 +29,7 @@ public class QuerySortDemo {
 		// 使用的分词器
 		Analyzer analyzer = new IKAnalyzer4Lucene7(true);
 		// 索引存储目录
-		Directory directory = FSDirectory.open(Paths.get("f:/test/indextest"));
+		Directory directory = FSDirectory.open(Paths.get(Constants.DIRECTORY_FILE_PATH));
 		// 索引读取器
 		IndexReader indexReader = DirectoryReader.open(directory);
 		// 索引搜索器
