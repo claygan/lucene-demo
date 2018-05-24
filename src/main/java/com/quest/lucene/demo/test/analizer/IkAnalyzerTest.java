@@ -12,6 +12,12 @@ import java.io.IOException;
 public class IkAnalyzerTest {
     public static void main(String[] args) throws IOException {
         String str = "市面上还有一些其他的分词器，那在 IK 有什么优势和特点";
+        System.out.println("---------->非智能分词");
+        try (IKAnalyer ik = new IKAnalyer()) {
+            TokenStream ts = ik.tokenStream("content", str);
+            doToken(ts);
+        }
+        System.out.println("---------->智能分词");
         try (IKAnalyer ik = new IKAnalyer(true)) {
             TokenStream ts = ik.tokenStream("content", str);
             doToken(ts);

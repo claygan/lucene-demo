@@ -112,8 +112,7 @@ public class IndexWriteDemo {
 			// doc.add(new StringField("type", "电脑", Store.NO));
 			// doc.add(new SortedSetDocValuesField("type", new BytesRef("电脑")));
 			// doc.add(new StringField("type", "笔记本电脑", Store.NO));
-			// doc.add(new SortedSetDocValuesField("type", new
-			// BytesRef("笔记本电脑")));
+			// doc.add(new SortedSetDocValuesField("type", new BytesRef("笔记本电脑")));
 
 			// 价格，整数，单位分，不索引、存储、要支持排序
 			int price = 999900;
