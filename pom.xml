@@ -69,6 +69,12 @@
       <artifactId>tika-parsers</artifactId>
       <version>1.18</version>
     </dependency>
+    <!--spring-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>4.3.7.RELEASE</version>
+    </dependency>
   </dependencies>
 
   <build>
