@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+	<property name="basepath" value="f:\\logs\\springmvc"/>
+
+	<!-- 控制台输出log -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy/MM/dd-HH:mm:ss.SSS} %level [%thread] %class:%line>>%msg%n</pattern>
+		</encoder >
+	</appender>
+	<!-- 转储文件log -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${basepath}/log-info.log</file>
+		<!-- 过滤掉低于info级别的日志 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">  
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${basepath}/log-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		
+		<encoder chartset="UTF-8">
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- 访问统计同步日志 -->
+	<appender name="VISITFILE" class="ch.qos.logback.classic.AsyncAppender">
+		<file>${basepath}/visit-log.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${basepath}/visit-log.log.%d{yyyy-MM-dd}</fileNamePattern>
+		</rollingPolicy>
+		<encoder chartset="UTF-8">
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="visitLogger" level="INFO" additivity="false">
+		<appender-ref ref="VISITFILE"/>
+	</logger>
+	<!-- 异步输出 -->
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">  
+		<!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+       	  <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+       	  <queueSize>10000</queueSize>  
+          <appender-ref ref="stdout" />
+          <appender-ref ref="FILE" /> 
+          <appender-ref ref="VISITFILE" /> 
+    </appender> 
+	
+	<!-- 根logger：日志级别：TRACE < DEBUG < INFO < WARN < ERROR -->
+	<root level="DEBUG">
+		<appender-ref ref="ASYNC" />
+	</root>
+</configuration>

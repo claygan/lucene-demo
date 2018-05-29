@@ -1,7 +1,5 @@
 package com.quest.lucene.web.entity;
 
-import java.io.Serializable;
-
 /**
  * Created by Quest on 2018/5/28.
  */

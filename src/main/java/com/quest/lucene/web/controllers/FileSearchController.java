@@ -5,9 +5,12 @@ import com.quest.lucene.web.common.Constants;
 import com.quest.lucene.web.entity.FileInfo;
 import com.quest.lucene.web.entity.PageInfo;
 import com.quest.lucene.web.entity.QueryInfo;
+import com.quest.lucene.web.service.FileSearchService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sun.reflect.FieldInfo;
@@ -15,6 +18,8 @@ import sun.reflect.FieldInfo;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 import static thredds.featurecollection.FeatureCollectionConfig.PartitionType.file;
 
@@ -27,9 +32,12 @@ import static thredds.featurecollection.FeatureCollectionConfig.PartitionType.fi
 public class FileSearchController {
     @Autowired
     private IndexSearch indexSearch;
+    @Autowired
+    private FileSearchService fileSearchService;
 
     @RequestMapping("index")
-    public String toIndex() {
+    public String toIndex(Model model) {
+        model.addAttribute("path", Constants.FILE_PATH);
         return "index";
     }
 
@@ -42,7 +50,19 @@ public class FileSearchController {
     }
     @RequestMapping("store")
     @ResponseBody
-    public void doStore(){
+    public Map doStore(String path){
+        Map result = new HashMap();
+        if (StringUtils.isBlank(path)) {
+            path = Constants.FILE_PATH;
+        }
+        try {
+            fileSearchService.fileIndex(path);
+            result.put("code", "200");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("code", "500");
+        }
+        return result;
     }
 }
