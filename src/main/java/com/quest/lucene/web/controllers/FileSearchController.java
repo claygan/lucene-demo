@@ -13,15 +13,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import sun.reflect.FieldInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.bouncycastle.asn1.x500.style.RFC4519Style.name;
 import static thredds.featurecollection.FeatureCollectionConfig.PartitionType.file;
+import static ucar.nc2.constants.ACDD.keywords;
 
 
 /**
@@ -43,9 +47,11 @@ public class FileSearchController {
 
     @RequestMapping("search")
     @ResponseBody
-    public PageInfo<FileInfo> doSeacher(String keywords) throws IOException, ParseException {
+    public PageInfo<FileInfo> doSeacher(HttpServletRequest request, String keywords) throws IOException, ParseException {
         Path path = (new File(Constants.FILE_INDEX_PATH)).toPath();
-        PageInfo<FileInfo> pageInfo = indexSearch.findList(path, new QueryInfo(keywords));
+        System.out.println("keywords:" + request.getParameter("keywords"));
+        String keyword = new String(request.getParameter("keywords").getBytes("utf-8"),"utf-8");
+        PageInfo<FileInfo> pageInfo = indexSearch.findList(path, new QueryInfo(keyword));
         return pageInfo;
     }
     @RequestMapping("store")

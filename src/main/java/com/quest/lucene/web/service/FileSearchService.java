@@ -30,7 +30,7 @@ public class FileSearchService {
                 listFile(f);
             }else if(f.isFile()){
                 try {
-                    FileInfo info = TikaUtil.readFile(file);
+                    FileInfo info = TikaUtil.readFile(f);
                     IndexPersist persist = new IndexPersist();
                     persist.persistFile(new File(Constants.FILE_INDEX_PATH).toPath(), info);
                     continue;

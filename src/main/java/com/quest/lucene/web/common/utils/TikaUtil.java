@@ -30,7 +30,7 @@ public class TikaUtil {
         info.setName(file.getName().substring(0, (file.getName().lastIndexOf("."))));
         info.setType(new String[]{getMimeType(file)});
         info.setCreateTime(file.lastModified());
-        info.setIntro(getContent(file).substring(0, 50) + "...");
+        info.setIntro(getContent(file));
         info.setDownUrl(file.getCanonicalPath());
         info.setTotalPage(1);
         info.setfId(String.valueOf(file.hashCode()));
@@ -68,7 +68,11 @@ public class TikaUtil {
      */
     private static String getContent(File file) throws IOException, TikaException {
         Tika tika = new Tika();
-        return tika.parseToString(file);
+        String content = tika.parseToString(file);
+        if (content.length() > 50) {
+            content = content.substring(0, 50) + "...";
+        }
+        return content;
     }
     public static void main(String[] args) throws IOException {
         File file = new File("F:\\Desktop\\Alison.xlsx");
